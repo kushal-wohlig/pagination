@@ -1,8 +1,18 @@
 const express = require('express');
 
+
 const app = express();
 const mongoose = require('mongoose');
 const users = require('./users');
+const cors =require("cors");
+const corsOptions ={
+   origin:'*', 
+   credentials:true,            //access-control-allow-credentials:true
+   optionSuccessStatus:200,
+}
+
+app.use(cors(corsOptions)) // Use this after the variable declaration
+
 mongoose.connect("mongodb+srv://kushal-wohlig:Wohlig%40123@cluster0.vbyug.mongodb.net/sample_airbnb?retryWrites=true&w=majority");
 const db= mongoose.connection
 db.once('open', async() =>{
@@ -75,6 +85,7 @@ app.get('/users',paginatedData(users), (req,res) =>{
     // const endIndex = page*limit;
     // const result = users.slice(startIndex,endIndex);
     // res.json(result);
+    console.log("Request received");
     res.json(res.paginatedResult);
 }); 
 
